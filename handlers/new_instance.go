@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os"
+	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/play-with-docker/play-with-docker/pwd"
@@ -19,7 +21,14 @@ func NewInstance(rw http.ResponseWriter, req *http.Request) {
 
 	s := core.SessionGet(sessionId)
 
-	if len(s.Instances) >= 5 {
+	var reqInstances = int(5)
+	if envInstances := os.Getenv("NUM_INSTANCES"); envInstances != "" {
+		if i, err := strconv.Atoi(envInstances); err == nil {
+			reqInstances = int(i)
+		}
+	}
+
+	if len(s.Instances) >= reqInstances {
 		rw.WriteHeader(http.StatusConflict)
 		return
 	}

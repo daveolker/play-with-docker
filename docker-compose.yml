@@ -24,6 +24,8 @@ services:
             - sessions:/pwd
         environment:
             GOOGLE_RECAPTCHA_DISABLED: "true"
+            NUM_INSTANCES: 5
+            EXPIRY: "24h"
         ports:
             - "1022:1022"
     pwd2:
@@ -41,6 +43,8 @@ services:
             - sessions:/pwd
         environment:
             GOOGLE_RECAPTCHA_DISABLED: "true"
+            NUM_INSTANCES: 5
+            EXPIRY: "24h"
         ports:
             - "1023:1022"
     prometheus:
